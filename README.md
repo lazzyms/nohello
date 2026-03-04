@@ -17,3 +17,4 @@ Open `index.html` directly in any browser — no build step or dependencies requ
 ## Contributing
 
 Pull requests welcome! This is a static HTML/CSS/JS file with no external dependencies.
+Feel free to fork and use it.
