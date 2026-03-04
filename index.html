@@ -452,13 +452,25 @@
             <!-- BAD -->
             <div class="chat-box bad">
               <div class="chat-label">❌ Don't do this</div>
-              <div class="chat-messages" role="log" aria-label="Bad connection request example">
+              <div class="chat-messages" role="log" aria-label="Bad connect request example">
                 <div class="msg them">
+                  <div class="bubble">Hey, can we connect?</div>
+                  <span class="time">11:00</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Sure.</div>
+                  <span class="time">11:10</span>
+                </div>
+                <div class="msg them">
+                  <div class="bubble">📞 <em>Incoming call…</em></div>
+                  <span class="time">11:11</span>
+                </div>
+                <div class="msg me">
                   <div class="bubble">
-                    🔗 <em>Connection request</em><br/>
-                    <small style="color: var(--text-muted);">No message attached.</small>
+                    <em>(15-min call later…)</em><br/>
+                    That could have been a message. 😔
                   </div>
-                  <span class="time">09:15</span>
+                  <span class="time">11:26</span>
                 </div>
               </div>
             </div>
@@ -466,27 +478,28 @@
             <!-- GOOD -->
             <div class="chat-box good">
               <div class="chat-label">✅ Do this instead</div>
-              <div class="chat-messages" role="log" aria-label="Good connection request example">
+              <div class="chat-messages" role="log" aria-label="Good connect request with context example">
                 <div class="msg them">
-                  <div class="bubble">
-                    🔗 <em>Connection request</em><br/>
-                    <small>"Hi! I saw your talk on distributed systems at PyCon — really insightful. I work on similar problems at Acme Corp and would love to stay in touch."</small>
-                  </div>
-                  <span class="time">09:15</span>
+                  <div class="bubble">Hey, can we connect real quick? I need to discuss the ongoing issues on Project X — the manager is asking for updates.</div>
+                  <span class="time">11:00</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">I've already updated the Jira board with comments — take it from there and share it with your manager. No need for a call! 👍</div>
+                  <span class="time">11:05</span>
                 </div>
               </div>
             </div>
           </div>
 
           <p class="explain">
-            A blank connection request gives the recipient zero context about <strong>who you are</strong> or
-            <strong>why you want to connect</strong>. It feels like a cold knock on the door with nothing to say.
-            Add a short personal note — reference where you met, a shared interest, or why connecting would be
-            mutually valuable. A single sentence is enough.
+            Asking to "connect" with no context forces the other person to accept a call without knowing
+            what it's about — and it often turns out the topic could have been resolved with a single message.
+            <strong>Always state your purpose upfront.</strong> This lets the other person either answer
+            async immediately, or prepare properly for a call only if one is truly needed.
           </p>
 
           <div class="share-box">
-            <p>📋 Share this when someone sends a blank connection request</p>
+            <p>📋 Share this when someone asks to connect without context</p>
             <a href="https://lazzyms.github.io/nohello/#no-connect" target="_blank" rel="noopener noreferrer">lazzyms.github.io/nohello/#no-connect</a>
           </div>
         </div>
