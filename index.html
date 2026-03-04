@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Hello — Chat Etiquette Guide</title>
+    <meta
+      name="description"
+      content="A guide to better async communication etiquette: No Hello, No Call, No Connect."
+    />
+    <style>
+      :root {
+        --bg: #f5f7fa;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text: #1a202c;
+        --text-muted: #718096;
+        --accent: #4f46e5;
+        --accent-light: #eef2ff;
+        --bubble-them: #e2e8f0;
+        --bubble-them-text: #1a202c;
+        --bubble-me: #4f46e5;
+        --bubble-me-text: #ffffff;
+        --bad: #fee2e2;
+        --bad-border: #fca5a5;
+        --good: #dcfce7;
+        --good-border: #86efac;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.06);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f172a;
+          --surface: #1e293b;
+          --border: #334155;
+          --text: #f1f5f9;
+          --text-muted: #94a3b8;
+          --accent: #818cf8;
+          --accent-light: #1e1b4b;
+          --bubble-them: #334155;
+          --bubble-them-text: #f1f5f9;
+          --bubble-me: #4f46e5;
+          --bubble-me-text: #ffffff;
+          --bad: #3b1212;
+          --bad-border: #7f1d1d;
+          --good: #052e16;
+          --good-border: #166534;
+          --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      /* ── HERO ───────────────────────────────────────────────── */
+      .hero {
+        text-align: center;
+        padding: 4rem 1.5rem 2.5rem;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+      .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--accent);
+        line-height: 1.1;
+      }
+      .hero p {
+        margin-top: 1rem;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        color: var(--text-muted);
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* ── NAV PILLS ─────────────────────────────────────────── */
+      .nav-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin: 1.5rem auto 0;
+      }
+      .nav-pills a {
+        padding: 0.4rem 1rem;
+        border-radius: 9999px;
+        background: var(--accent-light);
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background 0.15s;
+      }
+      .nav-pills a:hover { background: var(--accent); color: #fff; }
+
+      /* ── MAIN LAYOUT ───────────────────────────────────────── */
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 1.5rem 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      /* ── SECTION CARD ──────────────────────────────────────── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 1.25rem 1.5rem 1rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .card-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .card-header h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      /* ── CHAT WINDOW ───────────────────────────────────────── */
+      .chat-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 560px) {
+        .chat-pair { grid-template-columns: 1fr; }
+      }
+
+      .chat-box {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 2px solid transparent;
+      }
+      .chat-box.bad  { border-color: var(--bad-border);  background: var(--bad); }
+      .chat-box.good { border-color: var(--good-border); background: var(--good); }
+
+      .chat-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        padding: 0.35rem 0.75rem;
+      }
+      .chat-box.bad  .chat-label { color: #b91c1c; }
+      .chat-box.good .chat-label { color: #15803d; }
+
+      .chat-messages {
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        background: var(--surface);
+      }
+
+      .msg {
+        display: flex;
+        flex-direction: column;
+        max-width: 85%;
+      }
+      .msg.them { align-self: flex-start; }
+      .msg.me   { align-self: flex-end; }
+
+      .msg .bubble {
+        padding: 0.45rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+      .msg.them .bubble {
+        background: var(--bubble-them);
+        color: var(--bubble-them-text);
+        border-bottom-left-radius: 0.25rem;
+      }
+      .msg.me .bubble {
+        background: var(--bubble-me);
+        color: var(--bubble-me-text);
+        border-bottom-right-radius: 0.25rem;
+      }
+
+      .msg .time {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-top: 0.15rem;
+        padding: 0 0.25rem;
+      }
+      .msg.me .time { text-align: right; }
+
+      .typing {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.45rem 0.8rem;
+        background: var(--bubble-them);
+        border-radius: 1rem;
+        border-bottom-left-radius: 0.25rem;
+        align-self: flex-start;
+        width: fit-content;
+      }
+      .typing span {
+        width: 6px; height: 6px;
+        background: var(--text-muted);
+        border-radius: 50%;
+        animation: blink 1.2s infinite;
+      }
+      .typing span:nth-child(2) { animation-delay: 0.2s; }
+      .typing span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes blink {
+        0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+        40%           { opacity: 1;   transform: scale(1); }
+      }
+
+      /* ── INLINE CODE ───────────────────────────────────────── */
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.85em;
+        background: var(--border);
+        color: var(--text);
+        padding: 0.1em 0.35em;
+        border-radius: 0.25rem;
+      }
+
+      /* ── EXPLANATION TEXT ──────────────────────────────────── */
+      .explain {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
+      .explain strong { color: var(--text); }
+
+      /* ── SHARE LINK BOX ────────────────────────────────────── */
+      .share-box {
+        background: var(--accent-light);
+        border: 1px solid var(--accent);
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .share-box p { font-size: 0.9rem; color: var(--accent); }
+      .share-box a {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-decoration: none;
+        background: var(--surface);
+        border: 1px solid var(--accent);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        white-space: nowrap;
+        transition: background 0.15s, color 0.15s;
+      }
+      .share-box a:hover { background: var(--accent); color: #fff; }
+
+      /* ── FOOTER ────────────────────────────────────────────── */
+      footer {
+        text-align: center;
+        padding: 2rem 1.5rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border);
+      }
+      footer a { color: var(--accent); text-decoration: none; }
+      footer a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+
+    <!-- ══ HERO ══════════════════════════════════════════════════ -->
+    <header class="hero">
+      <h1>No Hello</h1>
+      <p>
+        Better async communication starts with respecting people's time and focus.
+        Please don't just say "hi" — and please don't just call.
+      </p>
+      <nav class="nav-pills" aria-label="Sections">
+        <a href="#no-hello">💬 No Hello</a>
+        <a href="#no-call">📞 No Call</a>
+        <a href="#no-connect">🔗 No Connect</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- ══ NO HELLO ══════════════════════════════════════════ -->
+      <section class="card" id="no-hello" aria-labelledby="no-hello-heading">
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">💬</span>
+          <h2 id="no-hello-heading">No Hello</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="chat-pair">
+            <!-- BAD -->
+            <div class="chat-box bad">
+              <div class="chat-label">❌ Don't do this</div>
+              <div class="chat-messages" role="log" aria-label="Bad example conversation">
+                <div class="msg them">
+                  <div class="bubble">Hey!</div>
+                  <span class="time">10:00</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Hi 👋</div>
+                  <span class="time">10:12</span>
+                </div>
+                <div class="msg them">
+                  <div class="bubble">How are you?</div>
+                  <span class="time">10:13</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Good, you?</div>
+                  <span class="time">10:23</span>
+                </div>
+                <div class="msg them">
+                  <div class="bubble">Can I ask you something?</div>
+                  <span class="time">10:24</span>
+                </div>
+                <div class="typing" aria-label="Waiting for reply">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- GOOD -->
+            <div class="chat-box good">
+              <div class="chat-label">✅ Do this instead</div>
+              <div class="chat-messages" role="log" aria-label="Good example conversation">
+                <div class="msg them">
+                  <div class="bubble">Hey! Quick question — do you know the deployment process for the staging environment?</div>
+                  <span class="time">10:00</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Sure! You push to the <code>staging</code> branch and the CI pipeline handles the rest. Takes about 5 min.</div>
+                  <span class="time">10:04</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="explain">
+            Saying only "Hello" and waiting forces the other person to stop what they're doing
+            and reply before you even ask your question. It wastes <strong>both</strong> people's time.
+            Ask your question upfront — the other person can answer when they're free,
+            and everyone gets more done.
+          </p>
+
+          <div class="share-box">
+            <p>📋 Share this page when someone just says "hello"</p>
+            <a href="https://lazzyms.github.io/nohello" target="_blank" rel="noopener noreferrer">lazzyms.github.io/nohello</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ NO CALL ════════════════════════════════════════════ -->
+      <section class="card" id="no-call" aria-labelledby="no-call-heading">
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">📞</span>
+          <h2 id="no-call-heading">No Call</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="chat-pair">
+            <!-- BAD -->
+            <div class="chat-box bad">
+              <div class="chat-label">❌ Don't do this</div>
+              <div class="chat-messages" role="log" aria-label="Bad call example">
+                <div class="msg them">
+                  <div class="bubble">📞 <em>Incoming call from Alex…</em></div>
+                  <span class="time">14:03</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">— missed call —</div>
+                  <span class="time">14:03</span>
+                </div>
+                <div class="msg them">
+                  <div class="bubble">📞 <em>Incoming call from Alex…</em></div>
+                  <span class="time">14:05</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Sorry, was in a meeting. What's up?</div>
+                  <span class="time">14:18</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- GOOD -->
+            <div class="chat-box good">
+              <div class="chat-label">✅ Do this instead</div>
+              <div class="chat-messages" role="log" aria-label="Good async message example">
+                <div class="msg them">
+                  <div class="bubble">Hey, do you have a moment today? I need a quick review on the API contract — happy to share the doc so you can skim it async.</div>
+                  <span class="time">14:03</span>
+                </div>
+                <div class="msg me">
+                  <div class="bubble">Sure, drop the doc here! I'll leave comments by EOD.</div>
+                  <span class="time">14:20</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="explain">
+            An unscheduled call hijacks someone's entire attention — they must stop everything and context-switch
+            immediately. <strong>Ask yourself:</strong> could this be a message, a document, or an email?
+            If yes, use that instead. Reserve calls for genuinely urgent, complex, or sensitive conversations —
+            and even then, send a heads-up message first.
+          </p>
+
+          <div class="share-box">
+            <p>📋 Share this when someone calls unannounced</p>
+            <a href="https://lazzyms.github.io/nohello/#no-call" target="_blank" rel="noopener noreferrer">lazzyms.github.io/nohello/#no-call</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ NO CONNECT ═════════════════════════════════════════ -->
+      <section class="card" id="no-connect" aria-labelledby="no-connect-heading">
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">🔗</span>
+          <h2 id="no-connect-heading">No Connect</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="chat-pair">
+            <!-- BAD -->
+            <div class="chat-box bad">
+              <div class="chat-label">❌ Don't do this</div>
+              <div class="chat-messages" role="log" aria-label="Bad connection request example">
+                <div class="msg them">
+                  <div class="bubble">
+                    🔗 <em>Connection request</em><br/>
+                    <small style="color: var(--text-muted);">No message attached.</small>
+                  </div>
+                  <span class="time">09:15</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- GOOD -->
+            <div class="chat-box good">
+              <div class="chat-label">✅ Do this instead</div>
+              <div class="chat-messages" role="log" aria-label="Good connection request example">
+                <div class="msg them">
+                  <div class="bubble">
+                    🔗 <em>Connection request</em><br/>
+                    <small>"Hi! I saw your talk on distributed systems at PyCon — really insightful. I work on similar problems at Acme Corp and would love to stay in touch."</small>
+                  </div>
+                  <span class="time">09:15</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="explain">
+            A blank connection request gives the recipient zero context about <strong>who you are</strong> or
+            <strong>why you want to connect</strong>. It feels like a cold knock on the door with nothing to say.
+            Add a short personal note — reference where you met, a shared interest, or why connecting would be
+            mutually valuable. A single sentence is enough.
+          </p>
+
+          <div class="share-box">
+            <p>📋 Share this when someone sends a blank connection request</p>
+            <a href="https://lazzyms.github.io/nohello/#no-connect" target="_blank" rel="noopener noreferrer">lazzyms.github.io/nohello/#no-connect</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>
+        Inspired by
+        <a href="https://nohello.com" target="_blank" rel="noopener noreferrer">nohello.com</a>
+        and
+        <a href="https://nohello.co" target="_blank" rel="noopener noreferrer">nohello.co</a>.
+        &nbsp;·&nbsp;
+        <a href="https://github.com/lazzyms/nohello" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </p>
+    </footer>
+
+  </body>
+</html>
